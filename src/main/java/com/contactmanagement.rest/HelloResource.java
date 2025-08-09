@@ -11,7 +11,7 @@ public class HelloResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String sayHello() {
-        return "born to code, my first word was hello world!";
+        return "born to code, my first word was Hello world!";
     }
 }
 
