@@ -16,9 +16,9 @@ public class AuthResource {
       return Response.ok("{\"status:\"\"success\",\"message\":\"Welcome admin!\"}")
              .build();
     } else {
-      return Response.ok("{\"status:\"\"failed\",\"message\":\"Wrong credentials!\"}")
-             .build();
-      
+      return Response.status(Response.Status.UNAUTHORIZED)
+                     .entity("{\"status:\"\"failed\",\"message\":\"Wrong credentials!\"}")
+                     .build();     
     }
   }
 
