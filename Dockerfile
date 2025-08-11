@@ -3,7 +3,7 @@
 FROM payara/server-full:6.2025.8-jdk21
 
 # Set environment variables
-ENV DEPLOY_DIR=${PAYARA_HOME}/glassfish/domains/domain1/autodeploy
+ENV DEPLOY_DIR=${HOME}/glassfish/domains/domain1/autodeploy
 
 # Copy WAR into Payara's autodeploy directory
 COPY target/contact-backend.war ${DEPLOY_DIR}/contact-backend.war
