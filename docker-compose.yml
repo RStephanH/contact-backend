@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  mariadb:
+    image: mariadb:lts-noble
+    ports:
+      - 3036:3036
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=rootpass 
+      - MARIADB_DATABASE=contactdb
+      - MARIADB_USER=contactuser
+      - MARIADB_PASSWORD=contactpass
+
+  payara:
+    image: docker.io/rstephanh/contact-backend:lastest
+    ports: 
+      - 8080:8080
+      - 4848:4848
+    depends_on:
+      - mariadb
