@@ -1,0 +1,4 @@
+
+cd ..
+
+docker compose up
