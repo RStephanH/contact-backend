@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
     <persistence-unit name="contactPU" transaction-type="JTA">
-        <jta-data-source>java:app/jdbc/ContactDS</jta-data-source>
+        <jta-data-source>jdbc/ContactDS</jta-data-source>
         <properties>
-            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+          <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+          <property name="jakarta.persistence.sql-load-script-source" value="META-INF/db/insert.sql"/>
+          <property name="eclipselink.logging.level" value="FINEST"/>
+
         </properties>
     </persistence-unit>
 </persistence>

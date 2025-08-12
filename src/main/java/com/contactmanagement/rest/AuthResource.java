@@ -8,8 +8,10 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.enterprise.context.RequestScoped;
 
 @Path("/login")
+@RequestScoped
 public class AuthResource {
 
     @PersistenceContext(unitName = "contactPU")
