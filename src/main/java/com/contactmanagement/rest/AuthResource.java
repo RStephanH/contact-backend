@@ -1,7 +1,6 @@
 package com.contactmanagement.rest;
 
 import com.contactmanagement.entity.UserEntity;
-import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -9,6 +8,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.enterprise.context.RequestScoped;
+import org.mindrot.jbcrypt.BCrypt;
 
 @Path("/login")
 @RequestScoped
@@ -29,14 +29,21 @@ public class AuthResource {
     public Response login(LoginRequest loginRequest) {
         try {
             UserEntity user = em.createQuery(
-                    "SELECT u FROM UserEntity u WHERE u.username = :username AND u.password = :password", UserEntity.class)
+                    "SELECT u FROM UserEntity u WHERE u.username = :username", UserEntity.class)
                     .setParameter("username", loginRequest.username)
-                    .setParameter("password", loginRequest.password)
                     .getSingleResult();
 
-            return Response.ok()
-                    .entity("{\"message\":\"Login successful\", \"username\":\"" + user.getUsername() + "\"}")
-                    .build();
+            // Verify hashed password
+            if (BCrypt.checkpw(loginRequest.password, user.getPassword())) {
+                return Response.ok()
+                        .entity("{\"message\":\"Login successful\", \"username\":\"" + user.getUsername() + "\"}")
+                        .build();
+            } else {
+                return Response.status(Response.Status.UNAUTHORIZED)
+                        .entity("{\"error\":\"Invalid username or password\"}")
+                        .build();
+            }
+
         } catch (jakarta.persistence.NoResultException e) {
             return Response.status(Response.Status.UNAUTHORIZED)
                     .entity("{\"error\":\"Invalid username or password\"}")
