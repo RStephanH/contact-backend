@@ -1,5 +1,7 @@
 package com.contactmanagement.rest;
 
+import com.contactmanagement.dto.LoginRequest;
+import com.contactmanagement.dto.LoginResponse;
 import com.contactmanagement.entity.UserEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -17,11 +19,6 @@ public class AuthResource {
     @PersistenceContext(unitName = "contactPU")
     private EntityManager em;
 
-    public static class LoginRequest {
-        public String username;
-        public String password;
-    }
-
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -30,24 +27,28 @@ public class AuthResource {
         try {
             UserEntity user = em.createQuery(
                     "SELECT u FROM UserEntity u WHERE u.username = :username", UserEntity.class)
-                    .setParameter("username", loginRequest.username)
+                    .setParameter("username", loginRequest.getUsername())
                     .getSingleResult();
 
-            // Verify hashed password
-            if (BCrypt.checkpw(loginRequest.password, user.getPassword())) {
-                return Response.ok()
-                        .entity("{\"message\":\"Login successful\", \"username\":\"" + user.getUsername() + "\"}")
-                        .build();
+            if (BCrypt.checkpw(loginRequest.getPassword(), user.getPassword())) {
+                LoginResponse resp = new LoginResponse(
+                        true,
+                        "Login successful",
+                        user.getId(),
+                        user.getUsername(),
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getMail()
+                );
+                return Response.ok(resp).build();
             } else {
-                return Response.status(Response.Status.UNAUTHORIZED)
-                        .entity("{\"error\":\"Invalid username or password\"}")
-                        .build();
+                LoginResponse resp = new LoginResponse(false, "Invalid username or password", null, null, null, null, null);
+                return Response.status(Response.Status.UNAUTHORIZED).entity(resp).build();
             }
 
         } catch (jakarta.persistence.NoResultException e) {
-            return Response.status(Response.Status.UNAUTHORIZED)
-                    .entity("{\"error\":\"Invalid username or password\"}")
-                    .build();
+            LoginResponse resp = new LoginResponse(false, "Invalid username or password", null, null, null, null, null);
+            return Response.status(Response.Status.UNAUTHORIZED).entity(resp).build();
         }
     }
 }

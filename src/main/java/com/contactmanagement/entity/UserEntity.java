@@ -44,7 +44,9 @@ public class UserEntity implements Serializable{
   }
 
   // Getters and setters
-  public Long getId() { return this.user_id; }
+  public String getId() { 
+    return Long.toString(this.user_id); 
+  }
 
   public String getUsername() { return this.username; }
   public void setUsername(String username) { this.username = username; }
