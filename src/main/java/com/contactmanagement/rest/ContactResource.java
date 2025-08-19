@@ -54,5 +54,17 @@ public class ContactResource {
         }
         return Response.ok(contact).build();
     }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteContact(@PathParam("id") Long id) {
+    boolean deleted = contactService.delete(id);
+    if (deleted) {
+        return Response.noContent().build(); // 204 No Content
+    } else {
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+  }
+
 }
 
