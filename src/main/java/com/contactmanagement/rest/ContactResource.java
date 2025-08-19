@@ -3,6 +3,7 @@ package com.contactmanagement.rest;
 import com.contactmanagement.dto.ContactDTO;
 import com.contactmanagement.entity.ContactEntity;
 import com.contactmanagement.service.ContactService;
+import java.util.List;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -17,6 +18,12 @@ public class ContactResource {
     @Inject
     private ContactService contactService;
 
+    @GET
+    @Path("/user/{userId}")
+    public List<ContactDTO> getContactsByUser(@PathParam("userId") String userId) {
+        return contactService.getContactsByUserId(userId);
+    }
+
     @POST
     public Response createContact(ContactDTO contactDTO) {
         try {
@@ -27,7 +34,7 @@ public class ContactResource {
                     entity.getLastName(),
                     entity.getEmail(),
                     entity.getPhone(),
-                    entity.getUser().getId()
+                    Long.toString(entity.getUser().getId())
             );
             return Response.status(Response.Status.CREATED).entity(responseDto).build();
         } catch (Exception e) {
@@ -36,5 +43,6 @@ public class ContactResource {
                            .build();
         }
     }
+     // ---------------- Get all contacts by userId ----------------
 }
 

@@ -7,6 +7,8 @@ import com.contactmanagement.mapper.ContactMapper;
 import com.contactmanagement.repository.ContactRepository;
 import com.contactmanagement.repository.UserRepository;
 
+import java.util.stream.Collectors;
+import java.util.List;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 
@@ -34,5 +36,13 @@ public class ContactService {
 
         return entity;
     }
+
+    public List<ContactDTO> getContactsByUserId(String userId) {
+      List<ContactEntity> entities = contactRepository.findByUserId(userId);
+      return entities.stream()
+                     .map(e -> ContactMapper.toDto(e))
+                     .collect(Collectors.toList());
+    }
+
 }
 
