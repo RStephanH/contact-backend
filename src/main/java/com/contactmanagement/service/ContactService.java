@@ -9,6 +9,7 @@ import com.contactmanagement.repository.UserRepository;
 
 import java.util.stream.Collectors;
 import java.util.List;
+import java.util.Optional;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 
@@ -42,6 +43,25 @@ public class ContactService {
       return entities.stream()
                      .map(e -> ContactMapper.toDto(e))
                      .collect(Collectors.toList());
+    }
+
+    public ContactEntity updateContact(Long id, ContactEntity updatedContact) {
+        Optional<ContactEntity> existingContact = contactRepository
+    .findById(id);
+
+        if (existingContact.isPresent()) {
+            ContactEntity contact = existingContact.get();
+
+            // Mettre à jour les champs
+            contact.setFirstName(updatedContact.getFirstName());
+            contact.setLastName(updatedContact.getLastName());
+            contact.setPhone(updatedContact.getPhone());
+            contact.setEmail(updatedContact.getEmail());
+
+            return contactRepository.update(contact); // merge dans la DB
+        } else {
+            return null;
+        }
     }
 
 }
