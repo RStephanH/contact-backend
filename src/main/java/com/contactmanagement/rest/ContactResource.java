@@ -47,8 +47,8 @@ public class ContactResource {
     //update
     @PUT
     @Path("/{id}")
-    public Response updateContact(@PathParam("id") Long id, ContactEntity updatedContact) {
-        ContactEntity contact = contactService.updateContact(id, updatedContact);
+    public Response updateContact(@PathParam("id") Long id, ContactDTO updatedContactDTO) {
+        ContactDTO contact = contactService.updateContact(id, updatedContactDTO);
         if (contact == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Contact not found").build();
         }

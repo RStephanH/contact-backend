@@ -45,20 +45,22 @@ public class ContactService {
                      .collect(Collectors.toList());
     }
 
-    public ContactEntity updateContact(Long id, ContactEntity updatedContact) {
+    public ContactDTO updateContact(Long id, ContactDTO updatedContactDTO) {
+    UserEntity user = userRepository.findById(Long.parseLong(updatedContactDTO.getUserId()));
+    ContactEntity updatedContact = ContactMapper.toEntity(updatedContactDTO, user);
         Optional<ContactEntity> existingContact = contactRepository
     .findById(id);
 
         if (existingContact.isPresent()) {
             ContactEntity contact = existingContact.get();
 
-            // Mettre à jour les champs
+            // Update the fields
             contact.setFirstName(updatedContact.getFirstName());
             contact.setLastName(updatedContact.getLastName());
             contact.setPhone(updatedContact.getPhone());
             contact.setEmail(updatedContact.getEmail());
 
-            return contactRepository.update(contact); // merge dans la DB
+            return ContactMapper.toDto(contactRepository.update(contact)); // merge into DB
         } else {
             return null;
         }
