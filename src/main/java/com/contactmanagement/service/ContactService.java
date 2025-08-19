@@ -64,5 +64,8 @@ public class ContactService {
         }
     }
 
+    public boolean delete(Long id) {
+        return contactRepository.delete(id);
+        }
 }
 
