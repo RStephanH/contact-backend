@@ -34,7 +34,7 @@ public class AuthResource {
                 LoginResponse resp = new LoginResponse(
                         true,
                         "Login successful",
-                        user.getId(),
+                        Long.toString(user.getId()),
                         user.getUsername(),
                         user.getFirstName(),
                         user.getLastName(),

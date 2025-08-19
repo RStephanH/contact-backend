@@ -13,7 +13,7 @@ public class ContactMapper {
                 entity.getLastName(),
                 entity.getEmail(),
                 entity.getPhone(),
-                entity.getUser().getId()
+                Long.toString(entity.getUser().getId())
         );
     }
 
