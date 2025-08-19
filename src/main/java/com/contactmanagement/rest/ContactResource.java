@@ -18,6 +18,7 @@ public class ContactResource {
     @Inject
     private ContactService contactService;
 
+     // ---------------- Get all contacts by userId ----------------
     @GET
     @Path("/user/{userId}")
     public List<ContactDTO> getContactsByUser(@PathParam("userId") String userId) {
@@ -43,6 +44,15 @@ public class ContactResource {
                            .build();
         }
     }
-     // ---------------- Get all contacts by userId ----------------
+    //update
+    @PUT
+    @Path("/{id}")
+    public Response updateContact(@PathParam("id") Long id, ContactEntity updatedContact) {
+        ContactEntity contact = contactService.updateContact(id, updatedContact);
+        if (contact == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Contact not found").build();
+        }
+        return Response.ok(contact).build();
+    }
 }
 

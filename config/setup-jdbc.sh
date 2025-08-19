@@ -14,3 +14,5 @@ asadmin create-jdbc-connection-pool \
 asadmin create-jdbc-resource \
     --connectionpoolid ContactPool \
     jdbc/ContactDS
+# org.mariadb.jdbc.MariaDbDataSource
+# jdbc:mariadb://172.17.0.2:3306/contactdb
