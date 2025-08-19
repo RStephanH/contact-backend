@@ -26,11 +26,13 @@ public class ContactRepository {
         return em.merge(contact);
     }
 
-    public void delete(Long id) {
+    public boolean delete(Long id) {
     ContactEntity contact = em.find(ContactEntity.class, id);
     if (contact != null) {
         em.remove(contact);
+        return true;
     }
+    return false;
 }
 
     public List<ContactEntity> findByUserId(String userId) {
