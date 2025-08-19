@@ -5,6 +5,8 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 @Stateless
 public class ContactRepository {
@@ -12,8 +14,8 @@ public class ContactRepository {
     @PersistenceContext(unitName = "contactPU") 
     private EntityManager em;
 
-    public ContactEntity findById(Long id) {
-        return em.find(ContactEntity.class, id);
+    public Optional<ContactEntity> findById(Long id) {
+        return Optional.ofNullable(em.find(ContactEntity.class, id));
     }
 
     public void save(ContactEntity contact) {
@@ -25,11 +27,11 @@ public class ContactRepository {
     }
 
     public void delete(Long id) {
-        ContactEntity contact = findById(id);
-        if (contact != null) {
-            em.remove(contact);
-        }
+    ContactEntity contact = em.find(ContactEntity.class, id);
+    if (contact != null) {
+        em.remove(contact);
     }
+}
 
     public List<ContactEntity> findByUserId(String userId) {
       return em.createQuery(
