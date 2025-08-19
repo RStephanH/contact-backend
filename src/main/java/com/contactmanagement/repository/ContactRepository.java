@@ -31,6 +31,14 @@ public class ContactRepository {
         }
     }
 
+    public List<ContactEntity> findByUserId(String userId) {
+      return em.createQuery(
+              "SELECT c FROM ContactEntity c WHERE c.user.id = :userId", ContactEntity.class)
+              .setParameter("userId", Long.parseLong(userId))
+              .getResultList();
+    }
+
+
     public List<ContactEntity> findAll() {
         return em.createQuery("SELECT c FROM ContactEntity c", ContactEntity.class)
                  .getResultList();
