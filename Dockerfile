@@ -5,6 +5,8 @@ ENV HOME=/opt/payara
 ENV DEPLOY_DIR=${HOME}/glassfish/domains/domain1/autodeploy
 
 COPY ./config/setup-jdbc.sh ${HOME}/setup-jdbc.sh
+COPY ./config/mariadb-java-client-3.5.5.jar ${HOME}
+
 RUN chmod +x ${HOME}/setup-jdbc.sh
 
 COPY target/contact-backend.war ${DEPLOY_DIR}/contact-backend.war

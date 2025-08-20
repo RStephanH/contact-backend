@@ -4,7 +4,7 @@ services:
   mariadb:
     image: mariadb:lts-noble
     ports:
-      - 3036:3036
+      - 3306:3306
     restart: always
     environment:
       - MARIADB_ROOT_PASSWORD=rootpass 
@@ -13,7 +13,7 @@ services:
       - MARIADB_PASSWORD=contactpass
 
   payara:
-    image: docker.io/rstephanh/contact-backend:lastest
+    image: docker.io/rstephanh/contact-backend:latest
     ports: 
       - 8080:8080
       - 4848:4848
