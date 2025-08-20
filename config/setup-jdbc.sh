@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 # Wait for the default domain to be ready 
-sleep 10
+sleep 20
+
+asadmin add-library ./mariadb-java-client-3.5.5.jar
 
 # Create JDBC connection pool
 asadmin create-jdbc-connection-pool \
@@ -14,5 +16,3 @@ asadmin create-jdbc-connection-pool \
 asadmin create-jdbc-resource \
     --connectionpoolid ContactPool \
     jdbc/ContactDS
-# org.mariadb.jdbc.MariaDbDataSource
-# jdbc:mariadb://172.17.0.2:3306/contactdb
