@@ -2,7 +2,7 @@
 
 # Wait for the default domain to be ready 
 sleep 20
-echo "AS_ADMIN_PASSWORD=admin" >> password.txt
+echo "AS_ADMIN_PASSWORD=admin">>password.txt
 
 asadmin add-library --user admin --passwordfile=/opt/payara/password.txt ./mariadb-java-client-3.5.5.jar
 
